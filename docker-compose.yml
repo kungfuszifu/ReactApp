@@ -1,0 +1,29 @@
+﻿    
+services:
+  reactappDB:
+    container_name: reactappDB
+    image: postgres
+    environment:
+      POSTGRES_USER: reactapp
+      POSTGRES_PASSWORD: Pass123$
+      POSTGRES_DB: reactappDB
+    ports:
+      - 5432:5432
+      
+#  reactappServer:
+#    container_name: reactappServer
+#    image: reactapp.server
+#    build:
+#      context: .
+#      dockerfile: ReactApp.Server/Dockerfile
+#    ports:
+#      - 8000:8080
+#      - 8001:8081
+#    depends_on:
+#      - reactappDB
+#    environment:
+#      DB_USER: reactapp
+#      DB_NAME: reactappDB
+#      DB_PASSWORD: Pass123$
+#    networks:
+#      - reactappNet

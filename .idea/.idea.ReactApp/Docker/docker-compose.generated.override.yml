@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  reactappServer:
+    build:
+      context: "/Users/macieklazar/Documents/ReactApp-main"
+      dockerfile: "ReactApp.Server/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/ReactApp.Server.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "reactapp.server:dev"
+    ports: []
+    volumes:
+    - "/Users/macieklazar/.nuget/packages:/home/app/.nuget/packages"
+    - "/Users/macieklazar/Documents/ReactApp-main/ReactApp.Server:/app:rw"
+    - "/Users/macieklazar/Documents/ReactApp-main:/src:rw"
+    working_dir: "/app"
