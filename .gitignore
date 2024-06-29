@@ -1,0 +1,6 @@
+.idea
+.dockerignore
+ReactApp.Server/obj
+ReactApp.Server/bin
+reactapp.client/obj
+reactapp.client/node_modules
