@@ -1,1 +1,0 @@
-/Users/macieklazar/Documents/ReactApp-main/reactapp.client/obj/Debug/reactapp.client.esproj.CoreCompileInputs.cache
