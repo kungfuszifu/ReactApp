@@ -1,32 +1,40 @@
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ReactApp.Server.Contracts;
-using ReactApp.Server.Database;
 using ReactApp.Server.Models;
 
 namespace ReactApp.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UsersController : ControllerBase
+public class UsersController
 {
     public UsersController(
-        UserManager<AppUser> userManager,
-        SignInManager<AppUser> signInManager,
-        AppDbContext appDbContext)
+        UserManager<AppUser> userManager)
     {
         _userManager = userManager;
-        _signInManager = signInManager;
-        _appDbContext = appDbContext;
     }
     
     private readonly UserManager<AppUser> _userManager;
-    private readonly SignInManager<AppUser> _signInManager;
-    private readonly AppDbContext _appDbContext;
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(UserRegisterRequest request)
+    [HttpGet("")]
+    public async Task<IActionResult> GetUsers()
+    {
+        var userList = await _userManager.Users.ToListAsync();
+
+        if (userList.Count == 0)
+        {
+            return BadRequestObjectResult();
+        }
+
+        return OkObjectResult(userList);
+    }
+
+    [HttpPost("")]
+    [Authorize]
+    public async Task<ActionResult> AddUser(UserRegisterRequest request)
     {
         var user = new AppUser()
         {
@@ -40,30 +48,22 @@ public class UsersController : ControllerBase
 
         if (result.Succeeded)
         {
-            return Ok(request);
+            return Ok();
         }
 
-        return BadRequest("Invalid register request");
+        return BadRequest("Invalid user creation request");
     }
-    
-    [HttpPost("login")]
 
-    public async Task<IActionResult> Login(UserLoginRequest request)
+    [HttpPut("{email}")]
+    [Authorize]
+    public async Task<IActionResult> UpdateUser(string email, AppUser user)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email);
-
-        if (user == null)
+        if (email != user.Email)
         {
-            return BadRequest("Invalid email");
+            return 
         }
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-
-        if (result.Succeeded)
-        {
-            return Ok("Succesfuly logged in");
-        }
-
-        return BadRequest("Invalid password");
+        await _userManager.UpdateAsync(user);
+        return Ok(user);
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ReactApp.Server.Database;
 using ReactApp.Server.Models;
@@ -17,27 +18,18 @@ builder.Services.AddDbContext<AppDbContext>(
     options => options.UseNpgsql(connectionString));
 
 builder.Services.AddAuthorization();
-builder.Services.ConfigureApplicationCookie(options =>
-    {
-        options.ExpireTimeSpan = TimeSpan.FromHours(1);
-        options.LoginPath = new PathString("/Users/Login");
-        options.LogoutPath = new PathString("/Users/Logout");
-
-        options.Cookie = new CookieBuilder()
-        {
-            Name = "IdentityCookie",
-            HttpOnly = true,
-            SameSite = SameSiteMode.Lax,
-            SecurePolicy = CookieSecurePolicy.Always
-        };
-        
+builder.Services.AddAuthentication(options =>
+    {   
+        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     });
 
-builder.Services.AddIdentity<AppUser, AppRole>(options =>
+builder.Services.AddIdentity<AppUser, AppRole>(options => 
     {
-        options.User.RequireUniqueEmail = true;
+        options.User.RequireUniqueEmail = true; 
     })
     .AddEntityFrameworkStores<AppDbContext>();
+    
 
 //builder.Services.AddIdentityApiEndpoints<Contact>()
 //    .AddEntityFrameworkStores<AppDbContext>();
