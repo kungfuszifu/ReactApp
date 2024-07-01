@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReactApp.Server.Database;
 using ReactApp.Server.Models;
@@ -12,33 +13,25 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = $"Server=localhost;Port=5432;Database=reactappDB;User Id=reactapp;Password=Pass123$;";
-
+// Dodaje bazę danych do serwisów
 builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseNpgsql(connectionString));
+    options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(options =>
-    {   
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    });
 
-builder.Services.AddIdentity<AppUser, AppRole>(options => 
+// AddDefaultIdentity konfiguruje podstawowe serwisy Identity + podstawowy schemat autentykacji cookie
+// i konfiguruje go dla podanej bazy danych
+builder.Services.AddDefaultIdentity<AppUser>(options => 
     {
         options.User.RequireUniqueEmail = true; 
+        
     })
     .AddEntityFrameworkStores<AppDbContext>();
-    
-
-//builder.Services.AddIdentityApiEndpoints<Contact>()
-//    .AddEntityFrameworkStores<AppDbContext>();
 
 var app = builder.Build();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
-//app.MapIdentityApi<Contact>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

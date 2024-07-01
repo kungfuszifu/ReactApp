@@ -12,7 +12,7 @@ using ReactApp.Server.Database;
 namespace ReactApp.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240629052754_Initial")]
+    [Migration("20240630152132_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -165,6 +165,13 @@ namespace ReactApp.Server.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Category")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -177,12 +184,10 @@ namespace ReactApp.Server.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
 

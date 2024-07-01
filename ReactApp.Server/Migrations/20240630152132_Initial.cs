@@ -31,8 +31,10 @@ namespace ReactApp.Server.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    FirstName = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
-                    LastName = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
+                    LastName = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: true),
+                    Category = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
+                    BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),

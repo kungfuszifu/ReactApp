@@ -1,6 +1,55 @@
 @ReactApp.Server_HostAddress = http://localhost:5089
 
-GET {{ReactApp.Server_HostAddress}}/weatherforecast/
-Accept: application/json
+GET {{ReactApp.Server_HostAddress}}/Users/
+Content-Type: application/json
 
 ###
+
+POST {{ReactApp.Server_HostAddress}}/Api/login/
+Content-Type: application/json
+
+{
+  "email": "string@s.com",
+  "password": "Pass123$"
+}
+
+###
+
+POST {{ReactApp.Server_HostAddress}}/Users/
+Content-Type: application/json
+
+{
+  "firstName": "string",
+  "lastName": "string",
+  "userName": "string",
+  "email": "string@k.com",
+  "password": "stringT123#"
+}
+
+###
+
+@email = string.k.com
+
+PUT {{ReactApp.Server_HostAddress}}/Users/{{email}}
+Content-Type: application/json
+
+{
+
+  "id": "string",
+  "userName": "stringMODIFIED",
+  "normalizedUserName": "string",
+  "email": {{email}},
+  "normalizedEmail": "string",
+  "emailConfirmed": true,
+  "passwordHash": "string",
+  "securityStamp": "string",
+  "concurrencyStamp": "string",
+  "phoneNumber": "string",
+  "phoneNumberConfirmed": true,
+  "twoFactorEnabled": true,
+  "lockoutEnd": "2024-06-29T23:51:38.488Z",
+  "lockoutEnabled": true,
+  "accessFailedCount": 0,
+  "firstName": "string",
+  "lastName": "string"
+}

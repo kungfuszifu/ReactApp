@@ -162,6 +162,13 @@ namespace ReactApp.Server.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Category")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -174,12 +181,10 @@ namespace ReactApp.Server.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
 

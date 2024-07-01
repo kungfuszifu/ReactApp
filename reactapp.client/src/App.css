@@ -1,11 +1,37 @@
 ﻿#root {
-    max-width: 1280px;
     margin: 0 auto;
-    padding: 2rem;
     text-align: center;
 }
 
 th, td {
     padding-left: 1rem;
     padding-right: 1rem;
+}
+
+.center {
+    text-align: center;
+    justify-content: center;
+}
+
+.modal {
+    background-color: lightblue;
+    position: fixed;
+    z-index: 99;
+    width: 50%;
+    height: 60%;
+    margin-left: 25%;
+    bottom: 25%;
+}
+
+.table {
+    justify-content: center;
+    display: inline;
+}
+
+.form-page label {
+    padding: 10px;
+}
+
+.form-page input {
+    margin: 4px;
 }

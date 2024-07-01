@@ -1,56 +1,38 @@
-import { useEffect, useState } from 'react';
 import './App.css';
 
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
-}
+import Login from "./components/Login.tsx"
+import Register from "./components/Register.tsx";
+import Home from "./components/Home.tsx"
+import UserList from "./components/UserList.tsx";
+import Anonymous from "./components/Anonymous.tsx";
+import Nav from "./components/Nav.tsx";
+import {UserProvider} from "./components/AuthProvider.tsx";
+import {Route, Routes} from "react-router-dom"
 
+// Aplikacja jest owinieta w UserProvider który udostępnia wszystkim komponentom contex,
+// który zawiera funkcje i zmienne do autentykacji
+
+// Wszystkie elementy dziedziczące znajdują się w Route w celu ustalenia ich ścieżki URL
+
+// Login i Register znajdują się wewnątrz elementu Anonymous, który blokuje dostęp do 
+// tych stron jeżeli użytkownik jest zalogowany
 function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
-
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
-
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
-
     return (
-        <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
-        </div>
+        <><UserProvider>
+            <Nav />
+            <div className="center">  
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/users" element={<UserList />} />
+                <Route element={<Anonymous />}> 
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                </Route>
+            </Routes>
+            </div>
+        </UserProvider>
+        </>
     );
-
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        const data = await response.json();
-        setForecasts(data);
-    }
 }
 
 export default App;

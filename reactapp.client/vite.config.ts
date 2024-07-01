@@ -46,6 +46,46 @@ export default defineConfig({
             '^/weatherforecast': {
                 target,
                 secure: false
+            },
+            '^/Users': {
+                target,
+                secure: false
+            },
+            '^/Api/login': {
+                target,
+                secure: false
+            },
+            '^/Api/logout': {
+                target,
+                secure: false
+            },
+            '^/Api/register': {
+                target,
+                secure: false
+            },
+            '^/Api/pingauth': {
+                target,
+                secure: false
+            },
+            '^/Api/userlist': {
+                target,
+                secure: false
+            },
+            '^/Api/userDetails/': {
+                target,
+                secure: false
+            },
+            '^/Api/userUpdate': {
+                target,
+                secure: false
+            },
+            '^/Api/userDelete/': {
+                target,
+                secure: false
+            },
+            '^/Api/dict': {
+                target,
+                secure: false
             }
         },
         port: 5173,
