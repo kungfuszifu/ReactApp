@@ -92,28 +92,6 @@ public class ApiController : ControllerBase
         return NoContent();
     }
 
-    // Metoda sprawdzenia tożsamosci - cookie nie przechowuje jawnie informacji o tym na jakie konto
-    // zalogowany jest użytkownik, wiec ta metoda odsyła email jeżeli użytkownik jest zalogowany
-    [HttpGet("pingauth")]
-    [Authorize]
-    public async Task<IActionResult> CheckCredentials()
-    {
-        var principal = HttpContext.User;
-        var result = _signInManager.IsSignedIn(principal);
-
-        AppUser appUser = new();
-        if (result)
-        {
-            appUser = await _userManager.GetUserAsync(principal);
-        }
-        else
-        {
-            return Forbid("Acces Denied");
-        }
-
-        return Ok(new { userEmail = appUser.Email });
-    }
-
     // Metoda zwracająca liste użytkowników w bazie - zwracane są tylko podstawowe informacje
     [HttpGet("userlist")]
     public async Task<IActionResult> GetUserList()

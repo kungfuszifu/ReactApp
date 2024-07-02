@@ -25,14 +25,10 @@ export const UserProvider = ({children}: { children: React.ReactNode }) => {
 
     // Po załadowaniu elementu sprawdza czy ma zapisane cookie
     useEffect(() => {
-        fetch("/Api/pingauth", {
-            method: "GET",
-            credentials: "include"
-        }).then(response => response.json()).then(data => {
-            setUser(data.userEmail)
-        }).catch(() => {
-            setUser("");
-        })
+        var item = sessionStorage.getItem("user")
+        if (item != null) {
+            setUser(item)
+        }
         setReady(true);
     }, []);
 
